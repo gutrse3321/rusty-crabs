@@ -1,4 +1,85 @@
+
 fn main() {
+    func(1, 2);
+
+    // 表达式结尾没有分号
+    let y = {
+        let x = 3;
+        x + 1
+    };
+    println!("y: {}", y);
+
+    println!("func_ret: {}", func_ret());
+
+    println!("func_ret_1: {}", func_ret_1(5));
+
+    /**
+     * 控制流 control flow
+     */
+    let number = 3;
+    // 判断值必须是bool，不然编译错误
+    if number < 5 {
+        println!("true");
+    } else {
+        println!("false");
+    }
+
+    // 3元运算
+    let is_nice = if number > 5 {
+        "true"
+    } else {
+        "false"
+    };
+
+    // 循环
+    // go: for {}, java: while(true) {}
+    loop {
+        println!("fuck");
+        break;
+    }
+
+    let mut counter = 0;
+    let loop_res = loop {
+        counter += 1;
+        if counter == 10 {
+            break counter * 2;
+        }
+    };
+    println!("loop_res: {}", loop_res);
+
+    let mut while_num = 3;
+    // go: for num != 0 { num -= 1 }, java: while(num != 0) {num -= 1;}
+    while while_num >= 0 {
+        println!("while_num: {}", while_num);
+        while_num -= 1;
+    }
+
+    // 遍历
+    let mut for_arr = [1, 2, 3, 4, 5, 6];
+    for item in for_arr.iter() {
+        println!("item: {}", item);
+    }
+
+    // rev()翻转
+    for item in (1..4).rev() {
+        println!("rev item: {}", item);
+    }
+}
+
+fn func(x: i32, y: i32) {
+    println!("x: {}, y: {}", x, y);
+}
+
+// 返回值
+fn func_ret() -> i32 {
+    5
+}
+
+fn func_ret_1(x: i32) -> i32 {
+    x + 1
+}
+
+fn data_types() {
     /**
      * 常量constants
      */
@@ -55,5 +136,9 @@ fn main() {
     let var_6 = tup.2;
     println!("var4: {}, var5: {}, var6: {}", var_4, var_5, var_6);
     // 数组 array （vector类型 允许增长、缩短，array不可。go的切片）
-
+    let arr = [1, 2, 3, 4];
+    let month: [&str; 12] = ["January", "February", "March", "April", "May", "June", "July",
+        "August", "September", "October", "November", "December"];
+    // 声明相同的值和对应的数量
+    let eq = ["fuck"; 5];
 }
