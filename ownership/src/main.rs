@@ -62,3 +62,37 @@ fn takes_ownership(some_string: String) { // some_string 进入作用域
 fn makes_copy(some_integer: i32) { // some_integer 进入作用域
     println!("{}", some_integer);
 } // 这里，some_integer 移出作用域。不会有特殊操作
+
+/**
+ * 引用与借用
+ */
+fn func_3() {
+    let s1 = String::from("hello");
+    let len = calculate_length(&s1);
+    println!("The length of '{}' is {}.", s1, len);
+
+    let mut s = String::from("hello");
+    //TODO 不过可变引用有一个很大的限制：在特定作用域中的特定数据有且只有一个可变引用
+    // 使用一个新的作用域，就可以，但是不是 同时 拥有
+    {
+        let r1 = &mut s;
+    }
+    let r2 = &mut s;
+    change(&mut s);
+}
+
+// & 符号就是引用，它允许你使用值但不获取其所有权
+// &String s 指向 String s1： s的指针存的是 上面s1的指针
+//TODO 我们将获取引用作为函数参数称为 借用（borrowing）
+// 不可修改借用的变量
+fn calculate_length(s: &String) -> usize {
+    s.len()
+} // 这里，s 离开了作用域。但因为它并不拥有引用值的所有权，
+  // 所以什么也不会发生
+
+// 可变引用
+// 必须将 s 改为 mut。
+// 然后必须创建一个可变引用 &mut s 和接受一个可变引用 some_string: &mut String
+fn change(some_string: &mut String) {
+    some_string.push_str(", world");
+}
