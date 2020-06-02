@@ -5,7 +5,63 @@ struct User {
     active: bool,
 }
 
+// 如果想要打印出调试信息，需要加上注解
+// 增加注解来派生 Debug trait，并使用调试格式打印
+#[derive(Debug)]
+struct Rect {
+    width: u32,
+    height: u32,
+}
+
+// 结构体允许拥有多个impl块
+impl Rect {
+    fn area(&self) -> u32 {
+        self.width * self.height
+    }
+
+    fn can_eat(&self, other: &Rect) -> bool {
+        self.width > other.width && self.height > other.height
+    }
+
+    // 关联函数
+    fn square(size: u32) -> Rect {
+        Rect { width: size, height: size }
+    }
+}
+
+fn area(rect: &Rect) -> u32 {
+    rect.width * rect.height
+}
+
 fn main() {
+    let rect = Rect {
+        width: 30,
+        height: 50
+    };
+    println!("rect: {:#?}", rect);
+    println!("area: {}", area(&rect));
+    /**
+     * Rust 并没有一个与 C++ -> 等效的运算符；
+     * 相反，Rust 有一个叫 自动引用和解引用（automatic referencing and dereferencing）的功能。
+     * 方法调用是 Rust 中少数几个拥有这种行为的地方
+     * 当使用 object.something() 调用方法时，
+     * Rust 会自动为 object 添加 &、&mut 或 * 以便使 object 与方法签名匹配。
+     * 也就是说，这些代码是等价的：
+            p1.distance(&p2);
+            (&p1).distance(&p2);
+     */
+    println!("Rect method area: {}", rect.area());
+
+    let rect_1 = Rect { width: 30, height: 50 };
+    let rect_2 = Rect { width: 10, height: 40 };
+    let rect_3 = Rect { width: 60, height: 45 };
+    println!("Can rect1 eat rect2? {}", rect_1.can_eat(&rect_2));
+    println!("Can rect1 eat rect3? {}", rect_1.can_eat(&rect_3));
+
+    // 关联函数
+    let sq = Rect::square(30);
+    println!("square: {:#?}", sq);
+
     let mut user1 = User{
         username: String::from("tomonori"),
         email: String::from("hakurei@reimu.ru"),
