@@ -38,6 +38,8 @@ fn main() {
         SpreadSheetCell::Float(_) => {},
         SpreadSheetCell::Text(_) => {},
     }
+
+    func_hash_map();
 }
 
 enum SpreadSheetCell {
@@ -56,5 +58,17 @@ fn func_hash_map() {
     // 使用队伍列表和分数列表创建
     let teams = vec!["blue".to_string(), "yellow".to_string()];
     let ini_scores = vec![10, 50];
-    let scores: HashMap<_, _> = teams.iter().zip(initial_scores.iter()).collect();
+    let mut scores: HashMap<_, _> = teams.iter().zip(ini_scores.iter()).collect();
+
+    /// 覆盖值
+    let mut scores = HashMap::new();
+    scores.insert("blue".to_string(), 10);
+    scores.insert("blue".to_string(), 100);
+    // 只有在键无值时插入
+    scores.entry("yellow".to_string()).or_insert(1919);
+
+    println!("print scores hash map:");
+    for (key, val) in scores {
+        println!("key:{}, val:{}", key, val);
+    }
 }

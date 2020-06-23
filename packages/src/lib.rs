@@ -14,6 +14,10 @@ mod back_of_house {
          * 也就是crate根
          */
         super::serve_order();
+        /**
+         * 当前mod下的相对路径
+         */
+        self::cook_order();
     }
 
     fn cook_order() {
@@ -65,3 +69,35 @@ pub fn eat_at_restaurant() {
 
     let order_1 = back_of_house::Appetizer::Soup;
 }
+
+/// 别名
+/// as 关键字
+use std::fmt::Result;
+use std::io::Result as IoResult;
+
+/// pub use 重导出名称
+/// 通过 pub use，现在可以通过新路径
+/// hosting::add_to_waitlist 来调用 add_to_waitlist 函数。
+/// 如果没有指定 pub use，eat_at_restaurant
+/// 函数可以在其作用域中调用 hosting::add_to_waitlist，
+/// 但外部代码则不允许使用这个新路径
+pub use crate::front_of_house::hosting;
+pub fn eat_at_restaurant() {
+    hosting::add_to_waitlist();
+    hosting::add_to_waitlist();
+    hosting::add_to_waitlist();
+}
+
+/// 嵌套路径
+/// use std::cmp::Ordering;
+/// use std::io;
+/// 可以简化
+use std::{cmp::Ordering, io};
+/// 儿子的儿子
+/// use std::cmp;
+/// use std::cmp::Ord;
+use std::cmp::{self, Ord};
+
+/// global运算符 *
+/// 将所有公有定义引入作用域
+use std::collections::*;
