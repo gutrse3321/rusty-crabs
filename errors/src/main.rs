@@ -1,5 +1,6 @@
 use std::fs::File;
 use std::io::{self, ErrorKind, Read};
+use std::net::IpAddr;
 
 fn main() {
     // let f = File::open("hello.txt");
@@ -28,7 +29,14 @@ fn main() {
 
     /// panic的简写：unwrap和expect
     // let f = File::open("hello.txt").unwrap();
-    let f = File::open("hello.txt").expect("Failed to open hello.txt");
+    // let f = File::open("hello.txt").expect("Failed to open hello.txt");
+
+    /// propagating error 传递异常
+    let pro = read_username_from_file();
+    println!("{:?}", pro);
+
+    let homeAddr: IpAddr = "127.0.0.1".parse().unwrap();
+    println!("{}", homeAddr.to_string());
 }
 
 /// propagating error 传递异常
