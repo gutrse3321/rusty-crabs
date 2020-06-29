@@ -8,14 +8,14 @@ fn main() {
 
     let config = Config::new(&args)
         .unwrap_or_else(| err | {
-            println!("参数有误：{}", err);
+            eprintln!("参数有误：{}", err);
             process::exit(1);
         });
     println!("searching for: {}", config.query);
     println!("filename: {}", config.filename);
 
     if let Err(e) = io_toy::run(config) {
-        println!("app错误：{}", e);
+        eprintln!("app错误：{}", e);
         process::exit(1);
     }
 }

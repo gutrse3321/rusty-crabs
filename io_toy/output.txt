@@ -1,0 +1,5 @@
+["target\\debug\\io_toy.exe", "to", "fucker.txt"]
+searching for: to
+filename: fucker.txt
+case catch: Are you nobody, too?
+case catch: How dreary to be somebody!
