@@ -35,11 +35,18 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     // ? 会从函数中返回错误值并让调用者来处理它
     let contents = fs::read_to_string(config.filename)?;
 
+    // 使用迭代器的适配器的方式
     let res = if config.case_sensitive {
-        search(&config.query, &contents)
+        search_iter(&config.query, &contents)
     } else {
-        search_case_insensitive(&config.query, &contents)
+        search_case_insensitive_iter(&config.query, &contents)
     };
+
+    // let res = if config.case_sensitive {
+    //     search(&config.query, &contents)
+    // } else {
+    //     search_case_insensitive(&config.query, &contents)
+    // };
 
     // for line in search(&config.query, &contents) {
     //     println!("catch: {}", line)
@@ -78,6 +85,19 @@ pub fn search_case_insensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a st
     res
 }
 
+/// 使用迭代器适配器来使代码更简明
+pub fn search_iter<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+    contents.lines()
+        .filter(|line| line.contains(query))
+        .collect()
+}
+
+pub fn search_case_insensitive_iter<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+    contents.lines()
+        .filter(|line| line.to_lowercase().contains(query))
+        .collect()
+}
+
 pub struct Config {
     pub query: String,
     pub filename: String,
@@ -101,6 +121,24 @@ impl Config {
         // 检查环境变量CASE字段
         let case_sensitive = env::var("CASE").is_err();
         Ok(Config { query, filename, case_sensitive})
+    }
+
+    // 实现Iterator的std::env::Args结构体
+    pub fn new_with_iter(mut args: std::env::Args) -> Result<Config, &'static str> {
+        args.next();
+        let query = match args.next() {
+            Some(arg) => arg,
+            None => return Err("没有取得搜索字段"),
+        };
+
+        let filename = match args.next() {
+            Some(arg) => arg,
+            None => return Err("没有取得文件名称"),
+        };
+
+        let case_sensitive = env::var("CASE").is_err();
+
+        Ok(Config {query, filename, case_sensitive})
     }
 }
 
