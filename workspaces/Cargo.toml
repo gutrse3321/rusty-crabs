@@ -1,0 +1,17 @@
+[package]
+name = "workspaces"
+version = "0.1.0"
+authors = ["gutrse3321 <gutrse3321@live.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+# cargo run的话，adder目录下不会有target
+# 即使去adder目录下cargo build or run，构建的也是workspace目录下的
+[workspace]
+members = [
+    "adder",
+    "add-lib", # cargo new add-lib --lib
+]
+
+[dependencies]
